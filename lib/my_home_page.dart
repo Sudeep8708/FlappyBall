@@ -15,12 +15,12 @@ class _MyHomePageState extends State<MyHomePage> {
     double initialPos = Y;
     double height = 0;
     double time = 0;
-    double gr = -5.3;
-    double velocity = 3.2; 
+    double gr = -6;
+    double velocity = 4.3; 
     bool gameHasStarted = false;
     int score = 0;
 
-    double birdWidth  = 0.1; // Out of 2, 2 being the entire screen width
+    double birdWidth  = 0.1; // Out of 2, 2 being the enqtire screen width
     double birdHeight = 0.1; //Out of 2
 
     //barrier variables
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
 
                 children: [
-                Text(
+                const Text(
                 "GAME OVER",
                 style : TextStyle(color : Colors.white),
                 ),
@@ -113,9 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         }); 
 
-        
-
-        // If barrier exits the left part of the screen, keep it looping
+     // If barrier exits the left part of the screen, keep it looping
         if(barrierX[i] < -1.5) {
           barrierX[i] += 3;
           flag[i] = 1;
@@ -133,21 +131,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     bool birdIsDead() {
 
-      if(Y <= -1 || Y >= 1) {
+      if(Y + birdHeight < -1 || Y - birdHeight > 1) {
           return true;
       }
-
   // hits barriers
   // checks if bird is within x coord and y coord of barriers
-
     for(int i = 0; i < barrierX.length; i++) {
 
-      if(barrierX[i] <= birdWidth && barrierX[i] + barrierWidth >= -birdWidth &&
-      (Y <= -1 + barrierHeight[i][0] || Y + birdHeight >= 1 - barrierHeight[i][1]) ) {
+      if(barrierX[i] < birdWidth && barrierX[i] + barrierWidth > -birdWidth &&
+      (Y < -1 + barrierHeight[i][0] || Y + birdHeight > 1 - barrierHeight[i][1]) ) {
         return true;
       }
     }
-
       return false;
     }
 
@@ -169,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap : gameHasStarted ? jump : startGame,
     child : Scaffold(
@@ -196,14 +192,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
                      Container(
                       // alignment : Alignment(0, Y),
-                      alignment: Alignment(0, (2 * Y + birdHeight)),
+                      //alignment: Alignment(0, (2 * Y + birdHeight)),
+                      alignment: Alignment(0, (Y)),
                       child  : Container(
-                        // height : 50,
-                        // width : 50,
-                      height : MediaQuery.of(context).size.height * 3 / 4 * birdHeight / 1.2,
-                      width : MediaQuery.of(context).size.height * birdWidth / 1.2,
-                      decoration : BoxDecoration(shape: BoxShape.circle, color : Colors.red),
-                      // color : Colors.red,
+                      //   height : 50,
+                      //  width : 50,
+                      height : MediaQuery.of(context).size.height * 3 / 4 * birdHeight / 1.5,
+                      width : MediaQuery.of(context).size.height * birdWidth / 1.5,
+                     // decoration : BoxDecoration(color : Colors.red),
+                      child : Image.asset('bird_low.png'),
+                      // color : Colors.red,s
                      ),
                   ),
 
